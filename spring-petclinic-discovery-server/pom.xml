@@ -5,14 +5,13 @@
 
     <groupId>org.springframework.samples.petclinic.discovery</groupId>
     <artifactId>spring-petclinic-discovery-server</artifactId>
-    <version>1.4.2</version>
     <packaging>jar</packaging>
     <description>Spring PetClinic Discovery Server</description>
 
     <parent>
         <groupId>org.springframework.samples</groupId>
         <artifactId>spring-petclinic-microservices</artifactId>
-        <version>1.4.2</version>
+        <version>1.5.3</version>
     </parent>
 
     <dependencies>
@@ -34,15 +33,6 @@
         </dependency>
 
     </dependencies>
-
-    <build>
-        <plugins>
-            <plugin>
-                <groupId>org.springframework.boot</groupId>
-                <artifactId>spring-boot-maven-plugin</artifactId>
-            </plugin>
-        </plugins>
-    </build>
 
     <profiles>
         <profile>

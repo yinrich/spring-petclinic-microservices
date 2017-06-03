@@ -1,19 +1,23 @@
+/*
+ * Copyright 2002-2017 the original author or authors.
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *      http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
 package org.springframework.samples.petclinic.vets.system;
 
-import org.ehcache.config.CacheConfiguration;
-import org.ehcache.config.builders.CacheConfigurationBuilder;
-import org.ehcache.config.builders.ResourcePoolsBuilder;
-import org.ehcache.config.units.EntryUnit;
-import org.ehcache.expiry.Duration;
-import org.ehcache.expiry.Expirations;
-import org.ehcache.jsr107.Eh107Configuration;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.autoconfigure.cache.JCacheManagerCustomizer;
 import org.springframework.cache.annotation.EnableCaching;
-import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-
-import java.util.concurrent.TimeUnit;
+import org.springframework.context.annotation.Profile;
 
 /**
  * Cache could be disable in unit test.
@@ -21,22 +25,6 @@ import java.util.concurrent.TimeUnit;
  */
 @Configuration
 @EnableCaching
-public class CacheConfig {
-
-    @Autowired
-    VetsProperties vetsProperties;
-
-    @Bean
-    public JCacheManagerCustomizer cacheManagerCustomizer() {
-        return cacheManager -> {
-            CacheConfiguration<Object, Object> config = CacheConfigurationBuilder
-                .newCacheConfigurationBuilder(Object.class, Object.class,
-                    ResourcePoolsBuilder.newResourcePoolsBuilder()
-                        .heap(vetsProperties.getCache().getHeapSize(), EntryUnit.ENTRIES))
-                .withExpiry(Expirations.timeToLiveExpiration(Duration.of(vetsProperties.getCache().getTtl(), TimeUnit.SECONDS)))
-                .build();
-            cacheManager.createCache("vets", Eh107Configuration.fromEhcacheCacheConfiguration(config));
-        };
-    }
-
+@Profile("production")
+class CacheConfig {
 }
